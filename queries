@@ -1,0 +1,11 @@
+1.	Log in: (customer)
+Select email_address, password from Customer where user_email = email_address and user_password = password  
+2.	Log in: (staff)
+Select emai_address, password, designation from Staff where staff_email = email_addrress and staff_password = password and staff_designation = designation 
+3.	View Menu:
+Select * from menu
+4.	Add items into menu:
+insert into Menu (food_id, food_name, price, type, tier)
+values (value1, value2, value3, value4, value5)
+5.	Delete from Menu:
+delete from menu where food_id = x
