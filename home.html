@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+	<head>
+		<title>PDC Management System 2.0</title>
+        <link rel="stylesheet" href="home.css">
+	</head>
+    <body>
+        <div id="root"></div>
+        <h2>Login Page</h2><br>    
+        <div class="login">    
+            <form id="login" method="get" action="login.php">    
+                <label><b>Email Address     
+                </b>    
+                </label>    
+                <input type="text" name="email" id="email" placeholder="Email Address">    
+                <br><br>    
+                <label><b>Password     
+                </b>    
+                </label>    
+                <input type="Password" name="Pass" id="Pass" placeholder="Password">    
+                <br><br>    
+                <input type="button" name="log" id="log" value="Log In Here">       
+                <br><br> 
+                <input type="checkbox" id="check">    
+                <span>Click here to login as Staff</span>    
+                <br><br>
+                <!-- <input type="checkbox" id="check2">    
+                <span>Click here to login as Staff</span>    
+                <br><br>    -->
+            </form>     
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="/myjs" type="text/babel"></script>
+    </body>
+</html>
