@@ -6,22 +6,18 @@
 	</head>
     <body>
         <div id="root"></div>
-        <h2>Login Page</h2><br>    
+        <h2>PDC Management System 2.0</h2><br>    
         <div class="login">    
-            <form id="login" method="get" action="login.php">    
-                <label><b>Email Address     
-                </b>    
-                </label>    
-                <input type="text" name="email" id="email" placeholder="Email Address">    
+            <form id="login">    
+                <label><b>Email Address</b></label>    
+                <input type="text" name="email" id="email" placeholder="Email Address" onChange="{sete()}">    
                 <br><br>    
-                <label><b>Password     
-                </b>    
-                </label>    
-                <input type="Password" name="Pass" id="Pass" placeholder="Password">    
+                <label><b>Password</b></label>    
+                <input type="Password" name="Pass" id="Pass" placeholder="Password" onChange="{setpa()}">    
                 <br><br>    
-                <input type="button" name="log" id="log" value="Log In Here">       
+                <input type="button" name="log" id="submit" value="Log In Here" onclick = "{sendLogin()}">       
                 <br><br> 
-                <input type="checkbox" id="check">    
+                <input type="checkbox" id="check" onchange="{setp()}">    
                 <span>Click here to login as Staff</span>    
                 <br><br>
                 <!-- <input type="checkbox" id="check2">    
@@ -32,6 +28,7 @@
 
         <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
         <script src="/myjs" type="text/babel"></script>
     </body>
