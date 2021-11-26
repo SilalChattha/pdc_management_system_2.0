@@ -163,4 +163,24 @@ app.post(
   }
 );
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.post(
+  "/manager-update-stock", 
+  (req,res) =>{
+    const {name, quantity} = req.body;
+    db.query("SELECT name FROM inventory WHERE name = ?", [name], (err,res)=>{
+      if(err){
+        db.query("INSERT INTO inventory (name,quantity) VALUES(??",[name,quantity])
+      }
+      else{
+        db.query("UPDATE inventory SET quantity = ? WHERE name = ?",[quantity,name])
+      }
+    })
+    res.json({ success: true });
+  }
+);
+
+app.post(
+  "/manager-update-menu"
+)
+
+app.listen(port, () => console.log(`PDC app listening on port ${port}!`));
