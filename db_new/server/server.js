@@ -169,7 +169,7 @@ app.post(
     const {name, quantity} = req.body;
     db.query("SELECT name FROM inventory WHERE name = ?", [name], (err,res)=>{
       if(err){
-        db.query("INSERT INTO inventory (name,quantity) VALUES(??",[name,quantity])
+        db.query("INSERT INTO inventory (name,quantity) VALUES(??)",[name,quantity])
       }
       else{
         db.query("UPDATE inventory SET quantity = ? WHERE name = ?",[quantity,name])
