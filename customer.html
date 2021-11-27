@@ -5,7 +5,7 @@
 <style>
 body {background-color: white;
       background-image: url("https://thumbs.dreamstime.com/b/indian-food-cuisine-dishes-copy-space-tikka-masala-dal-paneer-samosa-chapati-chutney-spices-gray-background-assortment-meal-145296328.jpg");
-      background-size: 850px 530px;
+      background-size: 850px 540px;
       }
 
 h1 {
@@ -22,10 +22,18 @@ button {background-color: #000080;
         font-family: verdana;
         font-size: 120%
         }
+button3{
+		background-color: #00000;
+        }
 .button{
         display : flex;
         align-items: center;
         flex-direction: column;
+        }
+.button2{
+        position: fixed;
+        right: 0;
+        bottom: 0;
         }
 .footer{
         float: right;
@@ -40,7 +48,11 @@ button {background-color: #000080;
 <div class = "footer">
 PDC 2.0
 </div>
-<br>
+
+<div class = "button3">
+<button type="button3" onclick="alert('You can view your profile now')">Profile</button3>
+</div>
+
 <br>
 <br>
 <br>
@@ -54,7 +66,14 @@ PDC 2.0
 
 <button type="button" onclick="alert('This is the Menu for today')">View Menu</button>
 <br>
-<button type="button" onclick="alert('You have been logged out')">Log Out</button>
+<button type="button" onclick="alert('You can now type in your recommendations for each meal on today's menu')">Recommendations</button>
+<br>
+<button type="button" onclick="alert('You can now type in your feedback')">Feedback</button>
+<br>
+</div>
+
+<div class = "button2">
+<button type="button" onclick="alert('You have been logged out')">Log Out</button2>
 </div>
  
 </body>
