@@ -5,6 +5,8 @@ const router = express.Router()
 
 var login = require("./routes/login")
 var signup = require("./routes/signup")
+var customer = require("./routes/customer")
+var common = require("./routes/common")
 
 var bodyParser = require('body-parser');
 
@@ -39,25 +41,20 @@ app.get('/staff', function (req, res) {
 app.get('/register', function (req, res) {
     res.render('register');
 });
+app.get('/menu', function (req, res) {
+    res.render('menu');
+});
 
 //testing
 
-app.post('/customer/profile', function (req, res) {
-    res.render('profile');
-});
-app.post('/customer/recommendations', function (req, res) {
-    res.render('recommendations');
-});
-app.post('/customer/feedback', function (req, res) {
-    res.render('feedback');
-});
-app.post('/menu', function (req, res) {
-    res.render('menu');
-});
+
+
 app.post('/logout', function (req, res) {
     res.render('login');
 });
 app.use(signup);
 app.use(login);
+app.use(customer);
+app.use(common);
 
 app.listen(3000);

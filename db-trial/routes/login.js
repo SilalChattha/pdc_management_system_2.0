@@ -1,58 +1,77 @@
 var express = require('express');
 const router = express.Router()
 const bcrypt = require("bcrypt");
-const salt = bcrypt.genSalt(10);
+// const salt = bcrypt.genSalt(10);
 
-const mysql = require("mysql");
+const mysql = require("mysql2");
 const db = mysql.createConnection({
-    user: "root",
     host: "localhost",
-    password: "",
-    database: "mydb",
+    user: "root",
+    port: '3306',
+    password: "Monarch_2479",
+    database: "pdcdb",
 });
+// const db = mysql.createConnection({
+//     host: "mysql-61282-0.cloudclusters.net",
+//     user: "admin",
+//     port: '15353',
+//     password: "MS2stxGx",
+//     database: "pdc",
+// });
 
 router.post("/login", (req, res) => {
     const { email, password, priv } = req.body;
-    const hashed = bcrypt.hash(password, salt);
-    if (priv === false) {
-                
-        db.query( "SELECT * FROM customer WHERE email = ?",[email],(error, results, fields) => {
-            if (error) {res.render("error")}
-            // console.log(results)
-            const validPassword = bcrypt.compare(hashed, results[0].password);
-            if (validPassword) {
-                res.render("cust_page")
-            }
-            else{
-                res.render("error")
-            }
+    // const hashed = bcrypt.hash(password, salt);
+    
+    if (priv!=1) {
             
-        })}
+        db.query( "SELECT * FROM customers WHERE email = ?",[''+email],(error, results, fields) => {
+            if (error) {res.render("error",{mess: "Database Error"})}
+            if (results.length >=1){
+               
+                var validPassword = bcrypt.compareSync(password, results[0].pass);
+                if (validPassword == true) {
+                    res.render("cust_page",)
+                }
+                else{
+                    res.render("error",{mess: "Incorrect password"})
+                }
+            }
+            else{res.render("error",{mess: "Incorrect email"})}
+        })} 
       
     else {
       //login for staff
-      db.query( "SELECT * FROM staff WHERE email = ? AND designation =0",[email],(error, results, fields) => {
+      db.query( "SELECT * FROM staff WHERE email = ? AND designation = ?",[email,0],(error, results, fields) => {
         if (error) {
-            db.query( "SELECT * FROM staff WHERE email = ? AND designation =1",[email],(error, results, fields) => {
-                if (error) {res.render("error")}
-                const validPassword = bcrypt.compare(hashed, results[0].password);
-                if(validPassword){
-                    res.render("manager_page")
+            console.log("error");
+        }
+        else if(results.length==0){
+            db.query( "SELECT * FROM staff WHERE email = ? AND designation = ?",[email,1],(err, results, fields) => {
+                if (err) {res.render("error",{mess: "Database Error"})}
+                if (results.length >=1){
+                    const validPassword = bcrypt.compare(password, results[0].pass);
+                    if(validPassword){
+                        res.render("manager_page")
+                    }
+                    else{
+                        res.render("error",{mess: "Incorrect password"})
+                    }
                 }
-                else{
-                    res.render("error")
-                }
-                
+                 else{res.render("error",{mess: "Incorrect email"})}
             })
         }
         else{
-            const validPassword = bcrypt.compare(hashed, results[0].password);
-            if (validPassword) {
-                res.render("staff_page",)
+            if (results.length >=1){
+                const validPassword = bcrypt.compare(password, results[0].pass);
+                if (validPassword) {
+                    res.render("staff_page")
+                }
+                else{
+                    res.render("error",{mess: "Incorrect password"})
+                }
             }
-            else{
-                res.render("error")
-            }
+            else{res.render("error",{mess: "Incorrect email"})}
         }   
         })}
 
