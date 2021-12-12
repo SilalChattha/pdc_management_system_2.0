@@ -41,9 +41,7 @@ app.get('/staff', function (req, res) {
 app.get('/register', function (req, res) {
     res.render('register');
 });
-app.get('/menu', function (req, res) {
-    res.render('menu');
-});
+
 
 //testing
 

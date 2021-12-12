@@ -3,6 +3,7 @@ const router = express.Router()
 const bcrypt = require("bcrypt");
 // const salt = bcrypt.genSalt(10);
 
+
 const mysql = require("mysql2");
 const db = mysql.createConnection({
     host: "localhost",
@@ -11,6 +12,14 @@ const db = mysql.createConnection({
     password: "Monarch_2479",
     database: "pdcdb",
 });
+
+// import { create } from 'express-handlebars';
+// const hbs = create({
+//     // Specify helpers which are only registered on this instance.
+//     helpers: {
+//         set_storage(ID) { sessionStorage.setItem("cust_id",ID); },
+//     }
+// });
 // const db = mysql.createConnection({
 //     host: "mysql-61282-0.cloudclusters.net",
 //     user: "admin",
@@ -31,7 +40,9 @@ router.post("/login", (req, res) => {
                
                 var validPassword = bcrypt.compareSync(password, results[0].pass);
                 if (validPassword == true) {
-                    res.render("cust_page",)
+                    res.render("cust_page", {
+                        ID: results[0].ID
+                        })
                 }
                 else{
                     res.render("error",{mess: "Incorrect password"})
