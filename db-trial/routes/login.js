@@ -76,7 +76,7 @@ router.post("/login", (req, res) => {
             if (results.length >=1){
                 const validPassword = bcrypt.compare(password, results[0].pass);
                 if (validPassword) {
-                    res.render("staff_page")
+                    res.render("staff_page", {ID: 1})
                 }
                 else{
                     res.render("error",{mess: "Incorrect password"})

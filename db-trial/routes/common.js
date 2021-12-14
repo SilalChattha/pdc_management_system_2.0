@@ -1,7 +1,7 @@
 var express = require('express');
 const router = express.Router();
 
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -21,7 +21,7 @@ const db = mysql.createConnection({
 router.post('/delcart',function(req,res){
     var customer_id = req.body['shop'];
     console.log(customer_id)
-    db.query("SELECT order_id from cart  WHERE customer_id = ?", [customer_id], (err,resu)=>{
+    db.query("SELECT order_id FROM cart  WHERE customer_id = ?", [customer_id], (err,resu)=>{
         console.log('order')
         console.log(resu[0].order_id)
         db.query("DELETE FROM cart WHERE order_id = ? " [resu[0].order_id])
@@ -29,7 +29,7 @@ router.post('/delcart',function(req,res){
     
     
     var list=[];
-    db.query("SELECT food_id from cart WHERE customer_id = ?", [customer_id], (err,resu)=>{
+    db.query("SELECT food_id FROM cart WHERE customer_id = ?", [customer_id], (err,resu)=>{
         if (err){res.render("error")}
         if((resu.length >=1)){
             for (let i = 0; i < resu.length; i++){
@@ -39,8 +39,8 @@ router.post('/delcart',function(req,res){
             })}
         }
     })
-    var sleep = require('system-sleep');
-    sleep(10); // sleep   
+    // var sleep = require('system-sleep');
+    // sleep(10); // sleep   
     var total = 0
     if((list.length >1)){ total = list.reduce(function (a, b) { return a + b.price; }, 0);}
     
@@ -50,8 +50,10 @@ router.post('/delcart',function(req,res){
 
 router.post('/cart', function(req,res){
     var customer_id = req.body['shop'];
+    
+    const fetch_value = async(customer_id) =>{
     var list=[];
-    db.query("SELECT food_id from cart WHERE customer_id = ?", [customer_id], (err,resu)=>{
+    await db.query("SELECT food_id from cart WHERE customer_id = ?", [customer_id], (err,resu)=>{
         if (err){res.render("error")}
         if((resu.length >=1)){
             for (let i = 0; i < resu.length; i++){
@@ -61,8 +63,11 @@ router.post('/cart', function(req,res){
             })}
         }
     })
-    var sleep = require('system-sleep');
-    sleep(10); // sleep   
+    return list
+    }
+    var list= fetch_value(customer_id);
+    // var sleep = require('system-sleep');
+    // sleep(10); // sleep   
     var total = 0
     if((list.length >1)){ total = list.reduce(function (a, b) { return a + b.price; }, 0);}
     
@@ -111,11 +116,6 @@ router.get('/menu', function (req, res) {
         res.render('menu',temp);
     })
 });
-
-router.post('/cart', function(req,res){
-    const {id, name, price} = req.body;
-    console.log(req.body)
-})
 
 
 module.exports= router;

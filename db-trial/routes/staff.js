@@ -16,16 +16,14 @@ router.get("/staff/wallet", (req,res)=>{
 
 router.post("/staff/wallet", (req,res)=>{
     const {ID, amount} = req.body;
-    console.log(req.body);
     db.query(`SELECT wallet FROM customers WHERE ID = ?`, [ID], (err,results)=>{
-        console.log(results);
-        var total = amount + results[0].wallet;
-        db.query(`UPDATE customers SET wallet = ? WHERE ID = ?`, [total,ID], (err,results)=>{
-            res.redirect("staff");
-        })
+        var total = parseInt(amount) + parseInt(results[0].wallet);
+        db.query(`UPDATE customers SET wallet = ? WHERE ID = ?`, [total,ID],);
+        res.redirect("../staff");
     })
     
 })
+
 
 
 module.exports= router;
