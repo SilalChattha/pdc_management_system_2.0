@@ -7,6 +7,7 @@ var login = require("./routes/login")
 var signup = require("./routes/signup")
 var customer = require("./routes/customer")
 var common = require("./routes/common")
+var staff = require("./routes/staff")
 
 var bodyParser = require('body-parser');
 
@@ -54,5 +55,6 @@ app.use(signup);
 app.use(login);
 app.use(customer);
 app.use(common);
+app.use(staff);
 
 app.listen(3000);

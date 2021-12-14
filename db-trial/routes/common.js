@@ -19,7 +19,33 @@ const db = mysql.createConnection({
 // });
 
 router.post('/delcart',function(req,res){
+    var customer_id = req.body['shop'];
+    console.log(customer_id)
+    db.query("SELECT order_id from cart  WHERE customer_id = ?", [customer_id], (err,resu)=>{
+        console.log('order')
+        console.log(resu[0].order_id)
+        db.query("DELETE FROM cart WHERE order_id = ? " [resu[0].order_id])
+    })
     
+    
+    var list=[];
+    db.query("SELECT food_id from cart WHERE customer_id = ?", [customer_id], (err,resu)=>{
+        if (err){res.render("error")}
+        if((resu.length >=1)){
+            for (let i = 0; i < resu.length; i++){
+            db.query("SELECT food_name, price FROM menu WHERE ID = ?",resu[i].food_id,(err,result)=>{
+                if (err){res.render("error")}
+                list.push(result[0])
+            })}
+        }
+    })
+    var sleep = require('system-sleep');
+    sleep(10); // sleep   
+    var total = 0
+    if((list.length >1)){ total = list.reduce(function (a, b) { return a + b.price; }, 0);}
+    
+    res.render("cart",{items: list, total: total, cust_ID: customer_id})
+
 })
 
 router.post('/cart', function(req,res){
@@ -31,19 +57,15 @@ router.post('/cart', function(req,res){
             for (let i = 0; i < resu.length; i++){
             db.query("SELECT food_name, price FROM menu WHERE ID = ?",resu[i].food_id,(err,result)=>{
                 if (err){res.render("error")}
-                // console.log(result)
-                // list.concat([...list, ...result[0]]);
-                // list = list.concat(list,result);
                 list.push(result[0])
             })}
         }
     })
     var sleep = require('system-sleep');
-    sleep(50); // sleep   
+    sleep(10); // sleep   
     var total = 0
     if((list.length >1)){ total = list.reduce(function (a, b) { return a + b.price; }, 0);}
     
-    console.log(list)    
     res.render("cart",{items: list, total: total, cust_ID: customer_id})
     
     
