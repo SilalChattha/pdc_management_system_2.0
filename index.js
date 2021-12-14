@@ -1,46 +1,60 @@
-const express = require("express");
-const app = express();
-const mysql = require("mysql");
-const cors = require("cors");
+var express = require('express');
+const { engine } = require('express-handlebars');
+const path = require('path')
+const router = express.Router()
 
-app.use(cors());
-app.use(express.json());
+var login = require("./routes/login")
+var signup = require("./routes/signup")
+var customer = require("./routes/customer")
+var common = require("./routes/common")
+var staff = require("./routes/staff")
 
-const db = mysql.createConnection({
-  user: "root",
-  password: "",
-  host: "localhost",
-  database: "pdc2",
+var bodyParser = require('body-parser');
+
+
+var login = require('./routes/login')
+var app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.engine('handlebars', engine({ extname: '.hbs', defaultLayout: "main"}));
+app.set('view engine', 'handlebars');
+
+app.get('/', function (req, res) {
+    res.render('home');
 });
 
-app.post("/login", (req, res) => {
-  const email = req.body.email;
-  const password = req.body.password;
-  const priv = req.body.priv;
-  if (priv == 0)
-    db.query(
-      "SELECT email_address, password from Customer where user_email = ? and user_password = ?",
-      [email, password],
-      (err, result) => {
-        if (err) {
-          console.log(err);
-        } else {
-          res.send(result);
-        }
-      }
-    );
+
+//testing. delete later
+app.get('/login', function (req, res) {
+    res.render('login');
+});
+app.get('/customer', function (req, res) {
+    res.render('cust_page');
+});
+app.get('/manager', function (req, res) {
+    res.render('manager_page');
+});
+app.get('/staff', function (req, res) {
+    res.render('staff_page');
+});
+app.get('/register', function (req, res) {
+    res.render('register');
 });
 
-app.get("/employees", (req, res) => {
-  db.query("SELECT * FROM employees", (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      res.send(result);
-    }
-  });
-});
 
-app.listen(3001, () => {
-  console.log("server is running on port 3001");
+//testing
+
+
+
+app.post('/logout', function (req, res) {
+    res.render('login');
 });
+app.use(signup);
+app.use(login);
+app.use(customer);
+app.use(common);
+app.use(staff);
+
+app.listen(3000);
