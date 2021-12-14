@@ -1,7 +1,7 @@
 var express = require('express');
 const router = express.Router();
 
-const mysql = require("mysql2/promise");
+const mysql = require("mysql2");
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
@@ -39,8 +39,8 @@ router.post('/delcart',function(req,res){
             })}
         }
     })
-    // var sleep = require('system-sleep');
-    // sleep(10); // sleep   
+    var sleep = require('system-sleep');
+    sleep(10); // sleep   
     var total = 0
     if((list.length >1)){ total = list.reduce(function (a, b) { return a + b.price; }, 0);}
     
@@ -51,9 +51,8 @@ router.post('/delcart',function(req,res){
 router.post('/cart', function(req,res){
     var customer_id = req.body['shop'];
     
-    const fetch_value = async(customer_id) =>{
     var list=[];
-    await db.query("SELECT food_id from cart WHERE customer_id = ?", [customer_id], (err,resu)=>{
+    db.query("SELECT food_id from cart WHERE customer_id = ?", [customer_id], (err,resu)=>{
         if (err){res.render("error")}
         if((resu.length >=1)){
             for (let i = 0; i < resu.length; i++){
@@ -63,11 +62,9 @@ router.post('/cart', function(req,res){
             })}
         }
     })
-    return list
-    }
-    var list= fetch_value(customer_id);
-    // var sleep = require('system-sleep');
-    // sleep(10); // sleep   
+
+    var sleep = require('system-sleep');
+    sleep(10); // sleep   
     var total = 0
     if((list.length >1)){ total = list.reduce(function (a, b) { return a + b.price; }, 0);}
     
