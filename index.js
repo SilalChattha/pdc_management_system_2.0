@@ -58,4 +58,4 @@ app.use(customer);
 app.use(common);
 app.use(staff);
 
-app.listen(PORT);
+app.listen(process.env.PORT || PORT);
