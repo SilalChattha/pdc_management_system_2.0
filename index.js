@@ -2,6 +2,7 @@ var express = require('express');
 const { engine } = require('express-handlebars');
 const path = require('path')
 const router = express.Router()
+const PORT = 3306
 
 var login = require("./routes/login")
 var signup = require("./routes/signup")
@@ -57,4 +58,4 @@ app.use(customer);
 app.use(common);
 app.use(staff);
 
-app.listen(3000);
+app.listen(PORT);
